@@ -1,6 +1,6 @@
 HBASE 的安装依赖于hadoop ，上节基于docker的hadoop安装参见https://github.com/lennyhuanga/hadoopwithdocker
 所以HBASE的安装是在hadoop的image基础上进行的。
-
+参照：https://www.cnblogs.com/netbloomy/p/6677883.html
 hadoop2.7.2
 hbase1.3.0
 zookeeper-3.4.10
