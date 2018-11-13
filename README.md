@@ -1,25 +1,30 @@
 HBASE 的安装依赖于hadoop ，上节基于docker的hadoop安装参见https://github.com/lennyhuanga/hadoopwithdocker
 所以HBASE的安装是在hadoop的image基础上进行的。
-参照：https://www.cnblogs.com/netbloomy/p/6677883.html
+
 hadoop2.7.2
 hbase1.3.0
 zookeeper-3.4.10
-
+参考 https://www.cnblogs.com/netbloomy/p/6677883.html
 第一步  完成hadoop的iamge构建
 按照https://github.com/lennyhuanga/hadoopwithdocker 完成hadoop 的image 构建
 
-第二步 完成zookeeper的构建 参考：https://www.cnblogs.com/netbloomy/p/6658041.html
+第二步 完成zookeeper 和 hbase的构建 参考：https://www.cnblogs.com/netbloomy/p/6658041.html
 
+./build-image.sh
+./start-container.sh
+
+
+第三部 配置 zookeeper 和hbase
 1.myid 设置
 hadoop-master节点
 echo "1" >> /usr/local/zookeeper/data/myid
-docker restart $(docker ps -a|grep zookeeper|awk '{print $1}')
+
 hadoop-slave1节点
 echo "2" >> /usr/local/zookeeper/data/myid
-docker restart $(docker ps -a|grep zookeeper|awk '{print $1}')
+
 hadoop-slave2节点
 echo "3" >> /usr/local/zookeeper/data/myid
-docker restart $(docker ps -a|grep zookeeper|awk '{print $1}')
+
 
 2.分别启动hadoop-master、hadoop-slave1、hadoop-slave2上的zookeeper 并查看状态
  bin/zkServer.sh start
@@ -51,7 +56,7 @@ crontab -e 0 0 * *  /opt/zookeeper-3.4.10/bin/cleanup.sh
 3)、在其它2台机器做同样操作
  
  
- 第三步构建hbase
+4. 启动hbase
  
  ./start-hbase.sh
  
