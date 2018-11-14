@@ -20,7 +20,7 @@ RUN wget  http://archive.apache.org/dist/hbase/1.3.0/hbase-1.3.0-bin.tar.gz  && 
     tar -xzvf hbase-1.3.0-bin.tar.gz  && \
     mv hbase-1.3.0 /usr/local/hbase && \
 	chmod 777 /usr/local/hbase && \
-	mkdir -p  /usr/local/hbase/tmp/zk/data && \
+	mkdir -p /usr/local/hbase/tmp/zk/data && \
     rm hbase-1.3.0-bin.tar.gz 
 	
 
@@ -29,13 +29,14 @@ RUN wget  http://archive.apache.org/dist/hbase/1.3.0/hbase-1.3.0-bin.tar.gz  && 
 
 ENV ZOO_HOME=/usr/local/zookeeper
 ENV HBASE_HOME=/usr/local/hbase
-ENV HBASE_MANAGES_ZK=false  
+  
 
 # 拷贝配置文件
 COPY config/* /tmp/
 
 RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	mv /tmp/regionservers $ZOO_HOME/conf/regionservers && \
-	mv /tmp/hbase-site.xml $ZOO_HOME/conf/hbase-site.xml
+	mv /tmp/hbase-site.xml $ZOO_HOME/conf/hbase-site.xml && \
+	mv /tmp/hbase-env.sh $ZOO_HOME/conf/hbase-env.sh
 
 CMD [ "sh", "-c", "service ssh start; bash"]
