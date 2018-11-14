@@ -61,6 +61,17 @@ crontab -e 0 0 * *  /opt/zookeeper-3.4.10/bin/cleanup.sh
  ./start-hbase.sh
  
  bin/hbase version
+ 
+ 
+ 错误大全：
+ 1\The node /hbase is not in ZooKeeper，Hbase端口占用无法正常启动
+ 解决方案：https://blog.csdn.net/wing_93/article/details/78559838
+ 
+	2\搭建好hbase集群并启动集群后发现，HMaster在启动后几秒内自动关闭，HRegionServer运行正常。
+	: Failed to become active master 
+java.net.ConnectException: Call From hadoop1/192.168.2.1 to hadoop1:8020 failed on connection exception: java.net.ConnectException: Connection refused;
 
-
+https://blog.csdn.net/embracejava/article/details/53189123
+3\R: org.apache.hadoop.hbase.PleaseHoldException: Master is initializing
+解决方案：https://blog.csdn.net/liuxiao723846/article/details/53146304
 

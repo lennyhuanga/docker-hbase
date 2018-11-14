@@ -5,7 +5,8 @@ MAINTAINER lennyhuang <524180539@qq.com>
 
 WORKDIR /root
 
-
+# 升级vim -y的作用是在执行过程中询问yes or no 时选yes
+RUN apt-get remove -y vim-common && apt-get install -y vim
 # install zookeeper-3.4.10 
 RUN wget  http://apache.fayea.com/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz && \
     tar -xzvf zookeeper-3.4.10.tar.gz && \
@@ -35,8 +36,8 @@ ENV HBASE_HOME=/usr/local/hbase
 COPY config/* /tmp/
 
 RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
-	mv /tmp/regionservers $ZOO_HOME/conf/regionservers && \
-	mv /tmp/hbase-site.xml $ZOO_HOME/conf/hbase-site.xml && \
-	mv /tmp/hbase-env.sh $ZOO_HOME/conf/hbase-env.sh
+	mv -f /tmp/regionservers $HBASE_HOME/conf/regionservers && \
+	mv -f /tmp/hbase-site.xml $HBASE_HOME/conf/hbase-site.xml && \
+	mv -f /tmp/hbase-env.sh $HBASE_HOME/conf/hbase-env.sh
 
 CMD [ "sh", "-c", "service ssh start; bash"]
