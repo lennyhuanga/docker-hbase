@@ -14,7 +14,11 @@ zookeeper-3.4.10
 ./start-container.sh
 
 
+
 第三部 配置 zookeeper 和hbase
+
+设置各个节点的/etc/hosts文件
+./run_hosts.sh (ip地址根据事实情况进行修改)
 1.myid 设置
 hadoop-master节点
 echo "1" >> /usr/local/zookeeper/data/myid
@@ -74,4 +78,30 @@ java.net.ConnectException: Call From hadoop1/192.168.2.1 to hadoop1:8020 failed 
 https://blog.csdn.net/embracejava/article/details/53189123
 3\R: org.apache.hadoop.hbase.PleaseHoldException: Master is initializing
 解决方案：https://blog.csdn.net/liuxiao723846/article/details/53146304
+4\hbase:meta state=FAILED_OPEN 
+http://community.cloudera.com/t5/Storage-Random-Access-HDFS/hbase-meta-state-FAILED-OPEN/td-p/33668
+
+
+5\
+,报错failed open of region
+
+https://blog.csdn.net/qq_31598113/article/details/79585323
+https://blog.csdn.net/shekey92/article/details/46549519
+
+6\regionserver 报 Failed open of region=hbase:meta,,1.1588230740, starting to roll back the global memstore size.
+java.lang.IllegalArgumentException: Wrong FS: hdfs://hadoop-master:9000/tmp/hbase-root/hbase/data/hbase/meta/1588230740/.regioninfo, expected: file:///
+解决方案：按照上边两个链接是解决不掉这个问题的。因为hbase：meta是元数据，一般不会出问题，而且我按如下思路
+1.停止HBase 
+2. ./zkCli.sh -server hadoop-master:2181
+ 并运行“rmr / hbase”删除HBase znodes 
+3.hdfs 中也将与hbase meta相关表删掉
+4.重新启动HBase。它将重新创建znodes
+还是不可以。
+
+查了一下java.lang.IllegalArgumentException: Wrong FS: hdfs://hadoop-master:9000/tmp/hbase-root/hbase/data/hbase/meta/1588230740/.regioninfo, expected: file:///
+这个错误，在hadoop中出现这个问题如hadoop项目中出现以下报错：java.lang.IllegalArgumentException: Wrong FS: hdfs://......，expected: file:///.......
+解决方法：需要把hadoop集群上的core-site.xml和hdfs-site.xml放到当前工程下，然后运行即可。
+那么我们将这两个文件放到hbase/conf 下，重启试了一下就ok了
+cp /usr/local/hadoop/etc/hadoop/core-site.xml /usr/local/hbase/conf/
+
 

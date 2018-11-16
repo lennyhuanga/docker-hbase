@@ -11,6 +11,7 @@ sudo docker run -itd \
                 -p 8088:8088 \
 		-p 9000:9000 \
                 -p 9001:9001 \
+		-p 16010:16010 \
                 --name hadoop-master \
                 --hostname hadoop-master \
                 lenny/hbase:1.0 &> /dev/null

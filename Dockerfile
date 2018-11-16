@@ -38,6 +38,9 @@ COPY config/* /tmp/
 RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	mv -f /tmp/regionservers $HBASE_HOME/conf/regionservers && \
 	mv -f /tmp/hbase-site.xml $HBASE_HOME/conf/hbase-site.xml && \
-	mv -f /tmp/hbase-env.sh $HBASE_HOME/conf/hbase-env.sh
-
+	mv -f /tmp/hbase-env.sh $HBASE_HOME/conf/hbase-env.sh && \
+	cp  $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/hdfs-site.xml && \
+	cp  $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/core-site.xml && \
+	mv  /tmp/run_hosts.sh ~/run_hosts.sh
+	
 CMD [ "sh", "-c", "service ssh start; bash"]
