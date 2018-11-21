@@ -12,6 +12,10 @@ sudo docker run -itd \
 		-p 9000:9000 \
                 -p 9001:9001 \
 		-p 16010:16010 \
+		-p 16000:16000 \
+		-p 16020:16020 \
+		-p 6000:6000 \
+		-p 2181:2181 \
                 --name hadoop-master \
                 --hostname hadoop-master \
                 lenny/hbase:1.0 &> /dev/null
@@ -21,10 +25,12 @@ sudo docker run -itd \
 i=1
 while [ $i -lt $N ]
 do
+	port=$(( $i + 2181 ))
 	sudo docker rm -f hadoop-slave$i &> /dev/null
 	echo "start hadoop-slave$i container..."
 	sudo docker run -itd \
 	                --net=hadoop \
+			-p $port:2181 \
 	                --name hadoop-slave$i \
 	                --hostname hadoop-slave$i \
 	                lenny/hbase:1.0  &> /dev/null
