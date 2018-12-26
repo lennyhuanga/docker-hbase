@@ -51,6 +51,6 @@ RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	mv  /tmp/run_hosts.sh ~/run_hosts.sh   && \
 	cp -rf /tmp/zkEnv.sh $ZOO_HOME/bin/zkEnv.sh && \
 	cp -rf /tmp/log4j.properties $ZOO_HOME/conf/log4j.properties && \
-	cp /usr/local/phoenix/phoenix-core-4.14.1-HBase-1.3.jar $HBASE_HOME/lib/phoenix-core-4.14.1-HBase-1.3.jar
+	cp /usr/local/phoenix/phoenix-4.14.1-HBase-1.3-server.jar  $HBASE_HOME/lib/phoenix-4.14.1-HBase-1.3-server.jar
 
 CMD [ "sh", "-c", "service ssh start; bash"]
