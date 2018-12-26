@@ -23,6 +23,13 @@ RUN wget  http://archive.apache.org/dist/hbase/1.3.0/hbase-1.3.0-bin.tar.gz  && 
 	chmod 777 /usr/local/hbase && \
 	mkdir -p /usr/local/hbase/tmp/zk/data && \
     rm hbase-1.3.0-bin.tar.gz 
+
+# install phoenix 4.14.1 and cp lib to hbase_home/lib/ 
+RUN wget http://mirrors.tuna.tsinghua.edu.cn/apache/phoenix/apache-phoenix-4.14.1-HBase-1.3/bin/apache-phoenix-4.14.1-HBase-1.3-bin.tar.gz  && \
+    tar -xzvf apache-phoenix-4.14.1-HBase-1.3-bin.tar.gz  && \
+    mv apache-phoenix-4.14.1-HBase-1.3-bin  /usr/local/phoenix && \
+    rm apache-phoenix-4.14.1-HBase-1.3-bin.tar.gz 
+    
 	
 
 
@@ -30,7 +37,7 @@ RUN wget  http://archive.apache.org/dist/hbase/1.3.0/hbase-1.3.0-bin.tar.gz  && 
 
 ENV ZOO_HOME=/usr/local/zookeeper
 ENV HBASE_HOME=/usr/local/hbase
-  
+ENV PHOENIX_HOME=/usr/local/phoenix  
 
 # 拷贝配置文件
 COPY config/* /tmp/
@@ -41,6 +48,7 @@ RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	mv -f /tmp/hbase-env.sh $HBASE_HOME/conf/hbase-env.sh && \
 	cp  $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/hdfs-site.xml && \
 	cp  $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/core-site.xml && \
-	mv  /tmp/run_hosts.sh ~/run_hosts.sh
-	
+	mv  /tmp/run_hosts.sh ~/run_hosts.sh   && \
+	cp /usr/local/phoenix/phoenix-core-4.14.1-HBase-1.3.jar $HBASE_HOME/lib/phoenix-core-4.14.1-HBase-1.3.jar
+
 CMD [ "sh", "-c", "service ssh start; bash"]
