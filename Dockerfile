@@ -49,6 +49,8 @@ RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	cp  $HADOOP_HOME/etc/hadoop/hdfs-site.xml $HBASE_HOME/conf/hdfs-site.xml && \
 	cp  $HADOOP_HOME/etc/hadoop/core-site.xml $HBASE_HOME/conf/core-site.xml && \
 	mv  /tmp/run_hosts.sh ~/run_hosts.sh   && \
+	cp -rf /tmp/zkEnv.sh $ZOO_HOME/bin/zkEnv.sh && \
+	cp -rf /tmp/log4j.properties $ZOO_HOME/conf/log4j.properties && \
 	cp /usr/local/phoenix/phoenix-core-4.14.1-HBase-1.3.jar $HBASE_HOME/lib/phoenix-core-4.14.1-HBase-1.3.jar
 
 CMD [ "sh", "-c", "service ssh start; bash"]
