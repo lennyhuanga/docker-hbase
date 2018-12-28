@@ -1,0 +1,67 @@
+
+
+
+
+
+https://www.jianshu.com/p/3be96085660b 利用Sqoop实现Hbase的数据与MySQL数据的互导
+---测试sqoop 联通性
+
+sqoop list-databases --connect jdbc:mysql://192.168.11.60:3306/test --username web60 --password web60p4pwd09
+
+---mysql 建表----------------
+create table itinfo(id varchar primary key,name varchar,age integer);
+
+----从mysql往hbase导入数据-----------------
+sqoop import "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" \
+--connect jdbc:mysql://192.168.11.60:3306/test \
+--username web60 \
+--password web60p4pwd09 \
+--table ITINFO  \
+--split-by ID 	\
+--hbase-table itinfo1 \
+--column-family info \
+--columns ID,NAME,AGE \
+--hbase-row-key ID \
+--hbase-create-table	
+
+------  查询hbase中表格是否同步成功
+hbase(main):071:0> scan 'ITINFO1'
+ROW                                                           COLUMN+CELL                                                                                 
+ 1003                                                         column=info:AGE, timestamp=1545982157128, value=30                                          
+ 1003                                                         column=info:NAME, timestamp=1545982157128, value=HUANGLIN  
+
+问题1：Generating splits for a textual index column allowed only in case of "-Dorg.
+
+
+import 后边增加 "-Dorg.apache.sqoop.splitter.allow_text_splitter=true"
+
+sqoop import "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" \
+--connect jdbc:mysql://192.168.11.60:3306/test \
+--username web60 \
+--password web60p4pwd09 \
+--table itinfo  \
+--split-by ID 	\
+--hbase-table ITINFO1 \
+--column-family info \
+--columns ID,NAME,AGE \
+--hbase-row-key ID \
+--hbase-create-table	
+
+问题2 Error during import: No primary key could be found for table *
+报错原因就是指定的mysql表名不是大写，所以mysql表名必须大写
+
+问题3：Could not insert row with null value for row-key column
+
+增加--columns ID,NAME,AGE \
+
+问题4：Error parsing arguments for import Unrecognized argument
+报错原因是在指定mysql的列名时，用逗号隔开的时候我多加了空格，所以在Columns后显示的列名只能用逗号隔开，不要带空格。
+
+
+
+
+
+----------创建hbase表与pheonix 表的映射，参照https://www.jianshu.com/p/4c908e419b60
+如果只做查询，强烈建议使用 phoenix 视图方式映射，删除视图不影响 hbase 源数据
+create view ITINFO1("ID" varchar primary key, "info"."NAME" varchar,"info"."AGE" integer) ;
+

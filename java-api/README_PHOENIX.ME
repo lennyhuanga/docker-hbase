@@ -1,0 +1,12 @@
+测试phoneix 的时候有几个问题
+
+1.Caused by: java.lang.NoSuchMethodError: com.lmax.disruptor.dsl.Disruptor
+问题: 在com.lmax.disruptor 3.3.0 包中找不到com.lmax.disruptor.dsl.Disruptor类.
+这个hbase间接依赖disruptor jar ，所以在maven中添加一个高版本依赖
+2.HADOOP_HOME or hadoop.home.dir are not set.
+在本地添加HADOOP_HOME 环境变量 和path  ，然后要设置hadoop.home.dir 的本地包
+
+ System.setProperty("hadoop.home.dir", "D:\\\\hadoop-2.7.2");
+ 如果是在生产环境是
+  System.setProperty("hadoop.home.dir", "/usr/local/hadoop");
+参照https://www.cnblogs.com/huxinga/p/6875929.html
