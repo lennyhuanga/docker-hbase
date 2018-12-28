@@ -1,0 +1,18 @@
+分布式集群有几种跨主机通信的方案
+docker自带的overlay：需要宿主机和虚拟机端口映射，但是宿主机和虚拟机网络是隔离的，ping不通，外网访问的时候会有问题。docker内的端口http的可连通，rpc端口绑定overlay网络，不绑定docker_gwbridge。所以rpc端口在外网telnet不通
+docker自带的macvlan：
+第三方的etcd+flannel。本教程是使用的flannel.宿主机安装flannel 参照https://www.hi-linux.com/posts/30481.html
+
+master:
+
+ docker run -itd  -p 50070:50070 -p 8088:8088 -p 9000:9000 -p 9001:9001 -p 16010:16010 -p 16000:16000 -p 16020:16020 -p 6000:6000 -p 2181:2181  --restart=always --name hadoop-master --hostname hadoop-master lenny/hbase:1.3 &> /dev/null
+
+slave1:
+
+ docker run -itd  -p 50070:50070 -p 8088:8088 -p 9000:9000 -p 9001:9001 -p 16010:16010 -p 16000:16000 -p 16020:16020 -p 6000:6000 -p 2181:2181  --restart=always --name hadoop-slave1 --hostname hadoop-slave1 lenny/hbase:1.3  &> /dev/null
+
+slave2:
+
+
+
+  docker run -itd  -p 50070:50070 -p 8088:8088 -p 9000:9000 -p 9001:9001 -p 16010:16010 -p 16000:16000 -p 16020:16020 -p 6000:6000 -p 2181:2181  --restart=always --name hadoop-slave2 --hostname hadoop-slave2 lenny/hbase:1.3  &> /dev/null
