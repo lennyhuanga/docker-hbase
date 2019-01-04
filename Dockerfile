@@ -67,6 +67,7 @@ RUN mv /tmp/zoo.cfg $ZOO_HOME/conf/zoo.cfg && \
 	mv /tmp/mysql-connector-java-5.1.41-bin.jar $SQOOP_HOME/lib/mysql-connector-java-5.1.41-bin.jar && \ 
 	mv /tmp/sqoop-1.4.7.jar  $SQOOP_HOME/lib/sqoop-1.4.7.jar	&& \ 
 	mv /tmp/hbase-site.xml $SQOOP_HOME/conf/hive-site.xml && \
-	mv /tmp/sqoop-env.sh $SQOOP_HOME/conf/sqoop-env.sh
-
+	mv /tmp/sqoop-env.sh $SQOOP_HOME/conf/sqoop-env.sh && \
+	mv /tmp/sqoop-site.xml $SQOOP_HOME/conf/sqoop-site.xml
+	
 CMD [ "sh", "-c", "service ssh start; bash"]
