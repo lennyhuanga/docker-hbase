@@ -20,7 +20,7 @@ do
         endnum=$((i*100000))
         echo "startnum is $startnum endnum is $endnum"
           sqoop import "-Dorg.apache.sqoop.splitter.allow_text_splitter=true" \
-        --connect jdbc:mysql://rr-bp1t2pqb24l68t8c4.mysql.rds.aliyuncs.com/diggle_logger --username admindiggle --password diggle@17689*aef \
+        --connect jdbc:mysql://rr-bp1t2pqc4.mysql.rds.aliyuncs.com/xxx --username xxxx --password xxxx \
         --query  "select UUID() as uuid , $tablename.* from $tablename  where ID >=$startnum  and ID <=$endnum and  \$CONDITIONS" \
         --split-by ID   \
         --hbase-table tbl_user_finance_log \
