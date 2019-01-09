@@ -105,3 +105,11 @@ java.lang.IllegalArgumentException: Wrong FS: hdfs://hadoop-master:9000/tmp/hbas
 cp /usr/local/hadoop/etc/hadoop/core-site.xml /usr/local/hbase/conf/
 
 
+----------------------add by huanglin at 2019.1.9--------------------------------
+通过sqoop 将mysql大表数据同步到hbase，同步了很多次，发现hbase中数据出现了重复值，每1000w数据会比mysql多出来100w条左右，怎么搞也找不到原因
+于是试了很多方式，讲大表的数据每次同步10w条不会出现重复值，20w条就出现。于是做了一个脚本分批同步
+将sqoop-mysql-hbase.sh cp到/usr/local/sqoop/bin 下。然后运行：
+./sqoop-mysql-hbase.sh 25320106  tbl_user_finance_log_201805
+25320106 是tbl_user_finance_log_201805 的数据量 
+
+
