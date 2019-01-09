@@ -110,7 +110,7 @@ sqoop list-databases --connect jdbc:mysql://rr-bp1t2.mysql.rds.aliyuncs.com/xxxx
 通过sqoop 将mysql大表数据同步到hbase，同步了很多次，发现hbase中数据出现了重复值，每1000w数据会比mysql多出来100w条左右，怎么搞也找不到原因
 于是试了很多方式，讲大表的数据每次同步10w条不会出现重复值，20w条就出现。于是做了一个脚本分批同步
 将sqoop-mysql-hbase.sh cp到/usr/local/sqoop/bin 下。然后运行：
-./sqoop-mysql-hbase.sh rownums  tablename
-比如rownums 一共多上行数据：25320106 
+nohup ./sqoop-mysql-hbase.sh rownums  tablename  &
+比如rownums 一共多上行数据：25320106 。nohup  xxx.sh & 是不间断执行，xshell断开不影响命令执行。
 
 
