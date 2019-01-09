@@ -1,5 +1,5 @@
 #!/bin/bash
-#./sqoop-mysql-hbase.sh 25320106  tbl_user_finance_log_201805
+#nohup ./sqoop-mysql-hbase.sh 25320106  tbl_user_finance_log_201805 &
 #mysql table row num
 num=$1
 tablename=$2
