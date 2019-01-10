@@ -113,4 +113,14 @@ sqoop list-databases --connect jdbc:mysql://rr-bp1t2.mysql.rds.aliyuncs.com/xxxx
 nohup ./sqoop-mysql-hbase.sh rownums  tablename  &
 比如rownums 一共多上行数据：25320106 。nohup  xxx.sh & 是不间断执行，xshell断开不影响命令执行。
 
+----------------add by huanglin at 2019.1.10-------------------------------------
+sqoop 导入数据时总多出来数据的问题找到了，hadoop job map的时候 map 有killed map出现，也就是map在执行的过程中，可能耗时太长被hadoop自动kill掉，又重新启动了新的map。所以在mapred-site.xml文件中加入以下属性，也就是把hadoop 时间推测机制 speculative 设置成false。这样hadoop就不会自主kill map了。
+<property>
+         <name>mapreduce.map.speculative</name>
+         <value>false</value>
+    </property>
+   <property>
+         <name>mapreduce.reduce.speculative</name>
+        <value>false</value>
+   </property>
 
