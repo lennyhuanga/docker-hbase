@@ -127,5 +127,6 @@ sqoop 导入数据时总多出来数据的问题找到了，hadoop job map的时
 ---------------add by huanglin at 2019.4.16 -------------------------------------
 在实际操作中 通过rabbit 和phoenix  往hbase中写日志。频繁出现regionserver 宕机问题，最后找到的原因是 hbase master 内存优化问题 
 参考以下文章，将hbase-env.sh 中 HBASE_MASTER_OPTS   HBASE_REGIONSERVER_OPTS两个参数内存设置的大一点即可。
-HBASE性能优化之最佳内存实践： https://blog.csdn.net/xiefu5hh/article/details/53090725
-当发现上述问题不能解决，可参考：https://stackoverflow.com/questions/37879254/hbase-error-memstore-size-is-xxxxxx
+https://stackoverflow.com/questions/37879254/hbase-error-memstore-size-is-xxxxxx
+https://www.jianshu.com/p/605086750c37
+更深入的：https://blog.csdn.net/cm_chenmin/article/details/52994980
