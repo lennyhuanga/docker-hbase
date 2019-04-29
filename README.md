@@ -130,3 +130,59 @@ sqoop 导入数据时总多出来数据的问题找到了，hadoop job map的时
 https://stackoverflow.com/questions/37879254/hbase-error-memstore-size-is-xxxxxx
 https://www.jianshu.com/p/605086750c37
 更深入的：https://blog.csdn.net/cm_chenmin/article/details/52994980
+
+
+
+---------------add by huanglin at 2019.4.29 -------------------------------------
+
+通过phoenix 从rabbitmq 消费数据到hbase 应用突然出问题
+1.rabbitmq的消费和ack突然降为0，当重启spring 消费应用时 消费几十条数据就又降到0；hbase master 和regionserver 日志差不多错误。spring应用也查不到错误
+2.过一段时间以后，spring应用出现了报错
+Caused by: org.apache.hadoop.hbase.client.RetriesExhaustedWithDetailsException: Failed 1 action: IOException: 1 time, servers with issues: null, 
+
+
+同时有这个报错
+
+hbase的regionserver
+MetaDataRegionObserver: Unable to rebuild  xxx   indexes
+以为是hbase表的索引坏了，删掉索引后以上问题还是存在，所以排除了索引出问题的可能
+
+
+通过这个报错查到了https://blog.csdn.net/davylee2008/article/details/70158136
+
+
+a 按照上述查询 hdfs fsck /  查看hadoop集群磁盘并没有任何问题
+b ./hbase hbck   
+https://blog.csdn.net/xiao_jun_0820/article/details/28602213 解决region 集群一致性介绍（并没有解决问题）
+hbase hbck
+              Status：OK，表示没有发现不一致问题。
+              Status：INCONSISTENT，表示有不一致问题。
+发现了很多问题，状态是Status：INCONSISTENT报错由以下几种
+1.Multiple regions have the same startkey
+https://blog.csdn.net/microGP/article/details/81233132
+但没有按照上述方式进行解决
+2.ERROR: Found lingering reference file hdfs://xxx
+http://developer.51cto.com/art/201708/549419.htm
+使用./hbase -fixSplitParents 
+./hbase -removeParents 
+./hbase -fixReferenceFiles  
+三个命令均没有解决掉该问题
+
+然后查询了：
+http://www.zhyea.com/2017/07/29/hbase-hbck-usage.html（hbase hbck用法大全）
+
+-repair  是以下指令的简写：-fixAssignments -fixMeta -fixHdfsHoles -fixHdfsOrphans -fixHdfsOverlaps -fixVersionFile -sidelineBigOverlaps -fixReferenceFiles -fixTableLocks -fixOrphanedTableZnodes；
+最后用./hbase -repair  运行后  Status：OK 
+再运行一遍 ./hbase hbck  运行后  Status：OK 
+关闭hbase ./stop-all.sh
+启动hbase ./start-all.sh
+
+至此该问题解决。重新启动docker 中的spring 消费应用。消费重新开始
+
+
+其中spring 还有一个诡异的现象：com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+应用打印出这句话，一直卡在这不往下运行。问题就出在hbase region出现了问题
+使用hbase-repair 解决了问题就ok了。
+
+
+
