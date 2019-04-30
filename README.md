@@ -184,5 +184,9 @@ http://www.zhyea.com/2017/07/29/hbase-hbck-usage.html（hbase hbck用法大全�
 应用打印出这句话，一直卡在这不往下运行。问题就出在hbase region出现了问题
 使用hbase-repair 解决了问题就ok了。
 
+---------------add by huanglin at 2019.4.30 -------------------------------------
 
-
+ERROR: Empty REGIONINFO_QUALIFIER found in hbase:meta 问题
+本质是region中有空行
+https://blog.csdn.net/wyl9527/article/details/78628453
+使用hbase hbck -fixEmptyMetaCells 修复。
