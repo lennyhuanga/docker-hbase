@@ -190,3 +190,8 @@ ERROR: Empty REGIONINFO_QUALIFIER found in hbase:meta 问题
 本质是region中有空行
 https://blog.csdn.net/wyl9527/article/details/78628453
 使用hbase hbck -fixEmptyMetaCells 修复。
+
+---------------add by huanglin at 2019.5.5--------------------------------------------------
+Hbase java客户端读文件大规模入库一段时间后Hbase报警告：
+Hbase HRegionInfo was null or empty in Meta （已解决）http://wenda.chinahadoop.cn/question/4366
+而且数据入库停止了。
