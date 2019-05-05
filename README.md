@@ -201,4 +201,5 @@ Hbase HRegionInfo was null or empty in Meta （已解决）http://wenda.chinahad
 Hbase java客户端读文件大规模入库一段时间后Hbase报警告：
 HBase error : Memstore size is xxxxxx
 https://stackoverflow.com/questions/37879254/hbase-error-memstore-size-is-xxxxxx（然并卵，只给了个思路）
-https://segmentfault.com/p/1210000013029260/read
+https://www.cnblogs.com/juncaoit/p/6170642.html（关于GC jvm调优 split 等测试小实验）
+https://segmentfault.com/p/1210000013029260/read（这才是真正解决问题的方式。）
