@@ -203,3 +203,9 @@ HBase error : Memstore size is xxxxxx
 https://stackoverflow.com/questions/37879254/hbase-error-memstore-size-is-xxxxxx（然并卵，只给了个思路）
 https://www.cnblogs.com/juncaoit/p/6170642.html（关于GC jvm调优 split 等测试小实验）
 https://segmentfault.com/p/1210000013029260/read（这才是真正解决问题的方式。）
+
+
+---------------add by huanglin at 2019.5.9----------------------------------------------------
+Phoenix Driver 一段时间后 Connection is null or closed.
+https://github.com/alibaba/druid/issues/2660 (这里并没有给出解决方案)
+http://tech.dianwoda.com/2017/08/08/di-fang-wen-liang-shi-phoenix-4-10-1-bao-cuo-connection-is-null-or-closed/ （不算解决方案的方案）
