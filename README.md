@@ -206,7 +206,7 @@ https://segmentfault.com/p/1210000013029260/read（这才是真正解决问题�
 
 
 ---------------add by huanglin at 2019.5.9----------------------------------------------------
-Phoenix Driver 一段时间后 Connection is null or closed.
+通过springboot使用durid连接池  一段时间后 报java.sql.SQLException: java.lang.IllegalArgumentException: Connection is null or closed.
 https://github.com/alibaba/druid/issues/2660 (这里并没有给出解决方案)
 http://tech.dianwoda.com/2017/08/08/di-fang-wen-liang-shi-phoenix-4-10-1-bao-cuo-connection-is-null-or-closed/ （不算解决方案的方案）
 https://tech.antfin.com/docs/2/61126（这里给出了解决方案，参考第22条，第10条）
